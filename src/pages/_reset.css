@@ -1,0 +1,74 @@
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+html {
+    line-height: 1.4;
+    background: #f5f7f9;
+}
+
+body {
+    margin: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    color: #333333;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    word-break: keep-all;
+}
+
+a {
+    color: inherit;
+}
+
+table {
+    text-indent: 0;
+}
+
+ol, ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+dl, dt, dd {
+    margin: 0;
+    padding: 0;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font-family: inherit;
+    font-size: 100%;
+    margin: 0;
+}
+
+button, select {
+    text-transform: none;
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+    -webkit-appearance: button;
+}
+
+#__next {
+    isolation: isolate;
+    height: 100%;
+}

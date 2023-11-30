@@ -1,3 +1,72 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@next/next/recommended",
+    "eslint:recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "indent": ["warn", 2, {
+      "SwitchCase": 1
+    }],
+    "semi": ["error", "never"],
+    "quotes": ["error", "single"],
+    "eqeqeq": ["error"],
+    "brace-style": ["warn", "1tbs", { "allowSingleLine":  true }],
+    "comma-dangle": ["warn", "only-multiline"],
+    "no-var": "error",
+    "no-tabs": "error",
+    "no-duplicate-imports": "error",
+    "no-self-compare": "warn",
+    "no-unreachable": "warn",
+    "no-console": "warn",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-eq-null": "warn",
+    "no-multi-str": "error",
+    "no-param-reassign": "error",
+    "no-trailing-spaces": ["warn", {
+      "ignoreComments": true
+    }],
+    "no-multiple-empty-lines": ["warn", {
+      "max": 2,
+      "maxBOF": 1,
+      "maxEOF": 1
+    }],
+    "no-unused-vars": "warn",
+    "no-multi-spaces": "error",
+    "key-spacing": "warn",
+    "no-whitespace-before-property": "error",
+    "nonblock-statement-body-position": "error",
+    "padded-blocks": ["error", "never"],
+    "spaced-comment": ["warn", "always"],
+    "lines-between-class-members": ["warn", "always"],
+    "arrow-body-style": ["warn", "as-needed"],
+    "jsx-quotes": ["error", "prefer-double"],
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "warn",
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }],
+    "react/no-array-index-key": "error",
+    "react/jsx-no-comment-textnodes": "warn"
+  }
 }
