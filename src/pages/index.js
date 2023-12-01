@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 const Index = () => {
   return (
     <Wrapper>
-      index page
+        <Link href="/costs">고정지출 목록</Link>
     </Wrapper>
   )
 }
