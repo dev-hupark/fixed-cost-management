@@ -10,9 +10,11 @@ const Wrapper = styled.div`
 const Index = () => {
   return (
     <Wrapper>
-        <Link href="/costs">고정지출 목록</Link>
+      <Link href="/costs">고정지출 목록</Link>
+      <Link href="/my/category">카테고리 목록</Link>
+      <Link href="/my/payment">결제수단 목록</Link>
     </Wrapper>
-  )
+  );
 }
 
 export default Index
