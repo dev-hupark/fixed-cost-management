@@ -16,8 +16,21 @@ const List = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+  
+  > div {
+    display: flex;
+    gap: 20px;
+  }
 `
 
+const ListItem = styled.div`
+  display: flex;
+  gap: 20px;
+  
+  > p {
+    width: 100px;
+  }
+`
 const InputForm = styled.div`
   display: flex;
   gap: 15px;
@@ -36,9 +49,16 @@ const TypeTitle = styled.p`
   margin-top: 15px;
 `
 
+const TableHeader = styled.div`
+  display: flex;
+  gap: 20px;
+  > p {
+    width: 100px;
+  }
+`
 const CategoryTitle = styled.p`
   display: inline-block;
-  width: 50px;
+  width: 100px;
   
 `
 
@@ -118,11 +138,20 @@ const Index = () => {
       {costs?.map((cost, index) => (
         <List key={cost.id}>
           {(index === 0 || (index > 0 && cost.type !== costs[index - 1].type)) && (
-            <TypeTitle>
-              {categories?.filter(category => category.id === cost.type).map((category) => (
-                category.name
-              ))}
-            </TypeTitle>
+            <>
+              <TypeTitle>
+                {categories?.filter(category => category.id === cost.type).map(category => (
+                    category.name
+                ))}
+              </TypeTitle>
+              <TableHeader>
+                <p>카테고리</p>
+                <p>상세카테고리</p>
+                <p>금액</p>
+                <p>결제수단</p>
+                <p>결제일</p>
+              </TableHeader>
+            </>
           )}
           <div>
             <CategoryTitle>
@@ -134,7 +163,14 @@ const Index = () => {
                 </>
               )}
             </CategoryTitle>
-            {cost.name} / {cost.cost} / {format('YYYY-MM-DD', cost.reg_dt)}
+            <ListItem>
+              <p>{cost.name}</p>
+              <p>{cost.cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} 원</p>
+              <p>{cost.pay_seq}  </p>
+              <p>{format('YYYY-MM-DD', cost.pay_date)}</p>
+              <button>수정</button>
+              <button>삭제</button>
+            </ListItem>
           </div>
         </List>
       ))}
