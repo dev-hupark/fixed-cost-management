@@ -5,6 +5,8 @@ import { useCosts, insertCost } from 'data/costs'
 import { useCategories } from 'data/category'
 import { usePayments } from 'data/payment'
 import { format } from 'utils/date'
+import PaymentList from '/src/components/my/PaymentList'
+import CategoryList from '/src/components/my/CategoryList'
 
 const Wrapper = styled.div`
   display: flex;
@@ -174,6 +176,9 @@ const Index = () => {
           </div>
         </List>
       ))}
+      <PaymentList user={user} payments={payments}/>
+      <CategoryList user={user} categories={categories}/>
+
     </Wrapper>
   )
 }

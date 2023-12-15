@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import { useAuth } from '@auth/use-auth'
+import PropTypes from 'prop-types'
+import React, {useState} from "react";
+import { insertCategory } from 'data/category';
 
 const Wrapper = styled.div`
   display: flex;
@@ -8,8 +9,7 @@ const Wrapper = styled.div`
   gap: 15px;
 `
 
-const Index = () => {
-  const { user } = useAuth()
+const CategoryList = ({ user, categories }) => {
   const [ category, setCurrentCategory ] = useState({
     high_lv_id: 0,
     category_name: '',
@@ -18,14 +18,12 @@ const Index = () => {
     reg_id: user.id,
   })
 
-
   const saveCategory = async (category) => {
     setCurrentCategory((prevState) => ({ ...prevState, reg_id: user.id }))
 
     const status = await insertCategory(category)
     switch (status){
       case 201:
-        refreshCosts()
         break
     }
   }
@@ -46,7 +44,12 @@ const Index = () => {
       </div>
       <button onClick={() => saveCategory(category)}>등록</button>
     </Wrapper>
-  );
+  )
 }
 
-export default Index
+CategoryList.propTypes = {
+  user: PropTypes.object,
+  categories: PropTypes.object
+}
+
+export default CategoryList
