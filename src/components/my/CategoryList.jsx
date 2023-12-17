@@ -1,13 +1,42 @@
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
-import React, {useState} from "react";
-import { insertCategory } from 'data/category';
+import React, { useState } from 'react'
+import { insertCategory } from 'data/category'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
 `
+
+const List = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  
+  > div {
+    display: flex;
+    gap: 20px;
+  }
+`
+
+const TableHeader = styled.div`
+  display: flex;
+  gap: 20px;
+  > p {
+    width: 100px;
+  }
+`
+
+const ListItem = styled.div`
+  display: flex;
+  gap: 20px;
+  
+  > p {
+    width: 100px;
+  }
+`
+
 
 const CategoryList = ({ user, categories }) => {
   const [ category, setCurrentCategory ] = useState({
@@ -43,13 +72,27 @@ const CategoryList = ({ user, categories }) => {
         <input type="text" onChange={e => setCurrentCategory((prevState) => ({...prevState, category_desc: e.target.value}))}/>
       </div>
       <button onClick={() => saveCategory(category)}>등록</button>
+      <List>
+        <TableHeader>
+          <p>카테고리명</p>
+          <p>카테고리설명</p>
+        </TableHeader>
+        {categories?.map((category, index) => (
+          <ListItem key={category.id}>
+            <p>{category.name}</p>
+            <p>{category.desc}</p>
+            <button>수정</button>
+            <button>삭제</button>
+          </ListItem>
+        ))}
+      </List>
     </Wrapper>
   )
 }
 
 CategoryList.propTypes = {
   user: PropTypes.object,
-  categories: PropTypes.object
+  categories: PropTypes.array
 }
 
 export default CategoryList

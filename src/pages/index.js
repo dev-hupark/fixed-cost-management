@@ -1,5 +1,7 @@
 import styled from '@emotion/styled'
 import Link from 'next/link'
+import { useAuth } from '@auth/use-auth'
+import Lists from 'components/cost/Lists'
 
 const Wrapper = styled.div`
   display: flex;
@@ -8,13 +10,19 @@ const Wrapper = styled.div`
 `
 
 const Index = () => {
+  const { loggedIn } = useAuth()
+
   return (
     <Wrapper>
-      <Link href="/costs">고정지출 목록</Link>
-      <Link href="/my/category">카테고리 목록</Link>
-      <Link href="/my/payment">결제수단 목록</Link>
+      {!loggedIn ? (
+        <p>
+          <Link href="/signin">로그인</Link> 후 이용이 가능합니다.
+        </p>
+      ) : (
+        <Lists></Lists>
+      )}
     </Wrapper>
-  );
+  )
 }
 
 export default Index

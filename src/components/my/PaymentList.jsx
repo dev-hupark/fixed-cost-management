@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
-import React, {useState} from "react";
-import { insertPayment } from 'data/payment';
+import React, {useState} from 'react'
+import { insertPayment } from 'data/payment'
 
 const Wrapper = styled.div`
   display: flex;
@@ -72,7 +72,7 @@ const PaymentList = ({ user, payments }) => {
           <p>설명</p>
         </TableHeader>
         {payments?.map((payment, index) => (
-          <ListItem>
+          <ListItem key={payment.id}>
             <p>{payment.name}</p>
             <p>{payment.desc}</p>
             <button>수정</button>
@@ -87,7 +87,7 @@ const PaymentList = ({ user, payments }) => {
 
 PaymentList.propTypes = {
   user: PropTypes.object,
-  payments: PropTypes.object
+  payments: PropTypes.array
 }
 
 export default PaymentList

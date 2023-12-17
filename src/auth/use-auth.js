@@ -9,7 +9,7 @@ export const UserProvider = ({ children }) => {
   const [ user, setUser ] = useState({})
 
   const fetchUser = async () => {
-    const {data} = await client.auth.getSession()
+    const { data } = await client.auth.getSession()
 
     if (data.session !== null) {
       setUser(data.session.user)
