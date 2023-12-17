@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import Link from 'next/link'
 import { useAuth } from '@auth/use-auth'
-import Lists from 'components/cost/Lists'
+import List from 'components/cost/List'
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const Index = () => {
           <Link href="/signin">로그인</Link> 후 이용이 가능합니다.
         </p>
       ) : (
-        <Lists></Lists>
+        <List></List>
       )}
     </Wrapper>
   )
