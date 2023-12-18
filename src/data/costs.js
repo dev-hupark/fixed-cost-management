@@ -40,20 +40,20 @@ const insertCost = async (cost) => {
   return status
 }
 
-const updateTodo = async (todo) => {
+const updateCost = async (cost) => {
   const { status } = await client // error
-    .from('todos')
-    .update(todo)
-    .eq('id', todo.id)
+    .from('fixed_cost_list')
+    .update(cost)
+    .eq('id', cost.id)
 
   return status
 }
 
-const deleteTodo = async (todo) => {
+const deleteCost = async (cost) => {
   const { status } = await client // error
-    .from('todos')
+    .from('fixed_cost_list')
     .delete()
-    .eq('id', todo.id)
+    .eq('id', cost.id)
 
   return status
 }
@@ -61,6 +61,6 @@ const deleteTodo = async (todo) => {
 export {
   useCosts,
   insertCost,
-  updateTodo,
-  deleteTodo,
+  updateCost,
+  deleteCost,
 }

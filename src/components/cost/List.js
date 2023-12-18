@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { useAuth } from '@auth/use-auth'
-import { useCosts, insertCost } from 'data/costs'
+import { useCosts } from 'data/costs'
 import { useCategories } from 'data/category'
 import { usePayments } from 'data/payment'
 import { format } from 'utils/date'
 import PaymentList from '/src/components/my/PaymentList'
 import CategoryList from '/src/components/my/CategoryList'
+import AddCostForm from '/src/components/cost/AddCostForm'
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,17 +34,7 @@ const ListItem = styled.div`
     width: 100px;
   }
 `
-const InputForm = styled.div`
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  
-  > div {
-    display: flex;
-    gap: 5px;
-    align-items: center;
-  }
-`
+
 
 const TypeTitle = styled.p`
   font-size: 20px;
@@ -64,6 +55,27 @@ const CategoryTitle = styled.p`
   
 `
 
+const PopupArea = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+`
+
+const PopupContent = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  padding: 20px;
+  background-color: white;
+  z-index: 1;
+`
+
 const List = () => {
   const { user } = useAuth()
   const { costs, refresh: refreshCosts } = useCosts(user.id)
@@ -73,70 +85,42 @@ const List = () => {
     type: 0,
     category: 0,
     name: '',
-    cost: 0
+    cost: 0,
+    pay_date: '',
+    pay_seq: 0,
+    memo: '',
+    reg_id: user.id
   })
 
-  const saveCost = async (cost) => {
-    setCurrentCost(prevState => ({ ...prevState, reg_id: user.id }))
+  const [ isPopup, setIsPopup ] = useState(false)
 
-    const status = await insertCost(cost)
-    switch (status){
-      case 201:
-        refreshCosts()
-        break
-    }
+  const toggleIsPopup = () => {
+    setIsPopup(!isPopup);
+  }
+
+  const addCostPopup = () => {
+    setCurrentCost({
+      type: 0,
+      category: 0,
+      name: '',
+      cost: 0,
+      pay_date: '',
+      pay_seq: 0,
+      memo: '',
+      reg_id: user.id
+    })
+    toggleIsPopup()
+  }
+  const editCostPopup = ( cost ) => {
+    setCurrentCost(cost)
+    toggleIsPopup()
   }
 
   return (
     <Wrapper>
-      <InputForm>
-        <div>
-          <span>구분</span>
-          <select onChange={e => setCurrentCost(prevState => ({...prevState, type: e.target.value}))}>
-            <option value={0}>선택</option>
-            {categories?.filter(category => category.high_lv_id === 0).map((category) => (
-              <option key={category.id} value={category.id}>{category.name}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <span>카테고리</span>
-          <select onChange={e => setCurrentCost(prevState => ({...prevState, category: e.target.value}))}>
-            <option value={0}>선택</option>
-            {categories?.filter(category => category.high_lv_id !== 0).map((category) => (
-              <option key={category.id} value={category.id}>{category.name}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <span>결제수단</span>
-          <select onChange={e => setCurrentCost(prevState => ({...prevState, pay_seq: e.target.value}))}>
-            <option value={0}>선택</option>
-            {payments?.map((payment) => (
-              <option key={payment.id} value={payment.id}>{payment.name}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <span>결제일</span>
-          <input type="text" onChange={e => setCurrentCost(prevState => ({...prevState, pay_date: e.target.value}))}/>
-        </div>
-        <div>
-          <span>항목명</span>
-          <input type="text" onChange={e => setCurrentCost(prevState => ({...prevState, name: e.target.value}))}/>
-        </div>
-        <div>
-          <span>금액</span>
-          <input type="text" onChange={e => setCurrentCost(prevState => ({...prevState, cost: e.target.value}))}/>
-        </div>
-        <div>
-          <span>비고</span>
-          <input type="text" onChange={e => setCurrentCost(prevState => ({...prevState, memo: e.target.value}))}/>
-        </div>
-        <div>
-          <button onClick={() => saveCost(cost)}>등록</button>
-        </div>
-      </InputForm>
+      <div>
+        <button onClick={addCostPopup}>신규 등록</button>
+      </div>
       {costs?.map((cost, index) => (
         <CostList key={cost.id}>
           {(index === 0 || (index > 0 && cost.type !== costs[index - 1].type)) && (
@@ -168,9 +152,9 @@ const List = () => {
             <ListItem>
               <p>{cost.name}</p>
               <p>{cost.cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} 원</p>
-              <p>{cost.pay_seq}  </p>
-              <p>{format('YYYY-MM-DD', cost.pay_date)}</p>
-              <button>수정</button>
+              <p>{cost.pay_seq}</p>
+              <p>{cost.pay_date}</p>
+              <button onClick={() => editCostPopup(cost)}>수정</button>
               <button>삭제</button>
             </ListItem>
           </div>
@@ -178,6 +162,21 @@ const List = () => {
       ))}
       <PaymentList user={user} payments={payments}/>
       <CategoryList user={user} categories={categories}/>
+
+      {isPopup &&
+        <PopupArea>
+          <PopupContent>
+              <AddCostForm
+                user={user}
+                curCost={cost}
+                categories={categories}
+                payments={payments}
+                closePopup={toggleIsPopup}
+                refreshCosts={refreshCosts}
+              />
+          </PopupContent>
+        </PopupArea>
+      }
     </Wrapper>
   )
 }

@@ -19,7 +19,7 @@ const Index = () => {
           <Link href="/signin">로그인</Link> 후 이용이 가능합니다.
         </p>
       ) : (
-        <List></List>
+        <List />
       )}
     </Wrapper>
   )
