@@ -62,10 +62,10 @@ const AddCostForm = ({ user, curCost, categories, payments, closePopup, refreshC
       <dl>
         <dt>구분</dt>
         <dd>
-          <select onChange={e => setCost(prevState => ({...prevState, type: parseInt(e.target.value)}))}>
+          <select onChange={e => setCost(prevState => ({...prevState, type: parseInt(e.target.value)}))} value={cost.type}>
             <option value={0}>선택</option>
             {categories?.filter(category => category.high_lv_id === 0).map((category) => (
-              <option key={category.id} value={category.id} selected={category.id === cost.type}>{category.name}</option>
+              <option key={category.id} value={category.id}>{category.name}</option>
             ))}
           </select>
         </dd>
@@ -73,10 +73,10 @@ const AddCostForm = ({ user, curCost, categories, payments, closePopup, refreshC
       <dl>
         <dt>카테고리</dt>
         <dd>
-          <select onChange={e => setCost(prevState => ({...prevState, category: parseInt(e.target.value)}))}>
+          <select onChange={e => setCost(prevState => ({...prevState, category: parseInt(e.target.value)}))} value={cost.category}>
             <option value={0}>선택</option>
             {categories?.filter(category => category.high_lv_id !== 0).map((category) => (
-              <option key={category.id} value={category.id} selected={category.id === cost.category}>{category.name}</option>
+              <option key={category.id} value={category.id}>{category.name}</option>
             ))}
           </select>
         </dd>
@@ -84,10 +84,10 @@ const AddCostForm = ({ user, curCost, categories, payments, closePopup, refreshC
       <dl>
         <dt>결제수단</dt>
         <dd>
-          <select onChange={e => setCost(prevState => ({...prevState, pay_seq: parseInt(e.target.value)}))}>
+          <select onChange={e => setCost(prevState => ({...prevState, pay_seq: parseInt(e.target.value)}))} value={cost.pay_seq}>
             <option value={0}>선택</option>
             {payments?.map((payment) => (
-              <option key={payment.id} value={payment.id} selected={payment.id === cost.pay_seq}>{payment.name}</option>
+              <option key={payment.id} value={payment.id}>{payment.name}</option>
             ))}
           </select>
         </dd>
