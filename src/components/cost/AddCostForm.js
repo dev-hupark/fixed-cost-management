@@ -13,12 +13,10 @@ const InputForm = styled.div`
   > ul li { display: flex; gap: 20px; justify-content: center; }
 `
 
-const AddCostForm = ({ user, curCost, categories, payments, closePopup, refreshCosts }) => {
+const AddCostForm = ({ curCost, categories, payments, closePopup, refreshCosts }) => {
   const [ cost, setCost ] = useState(curCost)
 
   const saveCost = async (cost, type) => {
-    console.log(cost)
-
     if(!validation(cost)) return;
 
     let status = 0
@@ -31,6 +29,7 @@ const AddCostForm = ({ user, curCost, categories, payments, closePopup, refreshC
     switch (status){
       case 201:
         refreshCosts()
+        closePopup()
         break
     }
   }
