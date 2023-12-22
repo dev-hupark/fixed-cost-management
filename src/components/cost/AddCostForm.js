@@ -28,6 +28,7 @@ const AddCostForm = ({ curCost, categories, payments, closePopup, refreshCosts }
 
     switch (status){
       case 201:
+      case 204:
         refreshCosts()
         closePopup()
         break
@@ -35,6 +36,7 @@ const AddCostForm = ({ curCost, categories, payments, closePopup, refreshCosts }
   }
 
   const validation = ( cost ) => {
+    console.log(cost);
     if(cost.type === 0){
       console.log('타입 입력 필요')
       return false
@@ -121,7 +123,6 @@ const AddCostForm = ({ curCost, categories, payments, closePopup, refreshCosts }
             <button onClick={() => saveCost(cost, 'U')}>수정</button>
             : <button onClick={() => saveCost(cost, 'I')}>등록</button>
           }
-          <button onClick={closePopup}>닫기</button>
         </li>
       </ul>
     </InputForm>

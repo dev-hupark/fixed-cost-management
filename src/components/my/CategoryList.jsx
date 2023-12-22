@@ -38,7 +38,7 @@ const ListItem = styled.div`
 `
 
 
-const CategoryList = ({ user, categories }) => {
+const CategoryList = ({ user, categories, closePopup }) => {
   const [ category, setCurrentCategory ] = useState({
     high_lv_id: 0,
     category_name: '',
@@ -71,14 +71,20 @@ const CategoryList = ({ user, categories }) => {
         <span>카테고리 설명</span>
         <input type="text" onChange={e => setCurrentCategory((prevState) => ({...prevState, category_desc: e.target.value}))}/>
       </div>
-      <button onClick={() => saveCategory(category)}>등록</button>
+      <button onClick={() => saveCategory(category)}>추가</button>
       <List>
         <TableHeader>
+          <p>상위카테고리</p>
           <p>카테고리명</p>
           <p>카테고리설명</p>
         </TableHeader>
         {categories?.map((category, index) => (
           <ListItem key={category.id}>
+            <p>
+              {categories?.filter(c => c.id === category.high_lv_id).map((c, index) => (
+                c.name
+              ))}
+            </p>
             <p>{category.name}</p>
             <p>{category.desc}</p>
             <button>수정</button>

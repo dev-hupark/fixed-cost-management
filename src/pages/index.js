@@ -31,7 +31,7 @@ const PopupContent = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 500px;
+  width: 600px;
   padding: 20px;
   background-color: white;
   z-index: 1;
@@ -61,6 +61,15 @@ const Index = () => {
   const { categories, refresh: refreshCategories } = useCategories(user.id)
   const { payments, refresh: refreshPayments } = usePayments(user.id)
 
+  const cateManagementPopup = () => {
+    setPopState(1)
+    toggleIsPopup()
+  }
+
+  const payManagementPopup = () => {
+    setPopState(1)
+    toggleIsPopup()
+  }
   const addCostPopup = () => {
     setCurrentCost({
       type: 0,
@@ -95,8 +104,8 @@ const Index = () => {
         <Wrapper>
           <ButtonArea>
             <button onClick={addCostPopup}>신규 등록</button>
-            <button onClick={addCostPopup}>카테고리 관리</button>
-            <button onClick={addCostPopup}>결제수단 관리</button>
+            <button onClick={cateManagementPopup}>카테고리 관리</button>
+            <button onClick={payManagementPopup}>결제수단 관리</button>
           </ButtonArea>
           <List
             costs={costs}
@@ -108,13 +117,13 @@ const Index = () => {
           {isPopup &&
           <PopupArea>
             <PopupContent>
+              <button onClick={toggleIsPopup}>닫기</button>
               { popState === 0 ?
                 <AddCostForm
                   user={user}
                   curCost={cost}
                   categories={categories}
                   payments={payments}
-                  closePopup={toggleIsPopup}
                   refreshCosts={refreshCosts}
                 />
                 : popState === 1 ? <CategoryList user={user} categories={categories}/>
