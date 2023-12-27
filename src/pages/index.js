@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState} from 'react'
 import styled from '@emotion/styled'
 import Link from 'next/link'
 import { useAuth } from '@auth/use-auth'

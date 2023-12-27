@@ -82,7 +82,6 @@ const PaymentList = ({ user, payments }) => {
       </List>
     </Wrapper>
   )
-
 }
 
 PaymentList.propTypes = {
