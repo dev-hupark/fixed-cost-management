@@ -81,7 +81,7 @@ const PaymentList = ({ user, payments }) => {
         ))}
       </List>
     </Wrapper>
-  );
+  )
 
 }
 
