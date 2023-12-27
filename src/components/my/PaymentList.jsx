@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import React, {useState} from 'react'
-import { insertPayment } from 'data/payment'
+import { insertPayment, deletePayment } from 'data/payment'
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,12 +35,16 @@ const ListItem = styled.div`
   > p {
     width: 100px;
   }
+  
+  > p input, >p select {
+    width: 100%;
+  }
 `
 
-const PaymentList = ({ user, payments }) => {
+const PaymentList = ({ user, payments, refresh, closePopup }) => {
   const [ payment, setCurrentPayment ] = useState({
-    pay_name: '',
-    pay_desc: '',
+    name: '',
+    desc: '',
     use_yn: 'Y',
     reg_id: user.id,
   })
@@ -51,21 +55,24 @@ const PaymentList = ({ user, payments }) => {
     const status = await insertPayment(payment)
     switch (status){
       case 201:
+        refresh()
         break
+    }
+  }
+
+  const removePayment = async (payment) => {
+    if(confirm('삭제 하시겠습니까?')){
+      const status = await deletePayment(payment)
+      switch (status){
+        case 204:
+          refresh()
+          break
+      }
     }
   }
 
   return (
     <Wrapper>
-      <div>
-        <span>결제수단명</span>
-        <input type="text" onChange={e => setCurrentPayment((prevState) => ({...prevState, name: e.target.value}))}/>
-      </div>
-      <div>
-        <span>결제수단 설명</span>
-        <input type="text" onChange={e => setCurrentPayment((prevState) => ({...prevState, desc: e.target.value}))}/>
-      </div>
-      <button onClick={() => savePayment(payment)}>등록</button>
       <List>
         <TableHeader>
           <p>결제수단명</p>
@@ -75,10 +82,14 @@ const PaymentList = ({ user, payments }) => {
           <ListItem key={payment.id}>
             <p>{payment.name}</p>
             <p>{payment.desc}</p>
-            <button>수정</button>
-            <button>삭제</button>
+            <button onClick={() => removePayment(payment)}>삭제</button>
           </ListItem>
         ))}
+        <ListItem>
+          <p><input type="text" onChange={e => setCurrentPayment((prevState) => ({...prevState, name: e.target.value}))}/></p>
+          <p><input type="text" onChange={e => setCurrentPayment((prevState) => ({...prevState, desc: e.target.value}))}/></p>
+          <button onClick={() => savePayment(payment)}>등록</button>
+        </ListItem>
       </List>
     </Wrapper>
   )

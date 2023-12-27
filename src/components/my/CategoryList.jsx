@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { insertCategory } from 'data/category'
+import { insertCategory, deleteCategory } from 'data/category'
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,11 +13,6 @@ const List = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  
-  > div {
-    display: flex;
-    gap: 20px;
-  }
 `
 
 const TableHeader = styled.div`
@@ -35,14 +30,18 @@ const ListItem = styled.div`
   > p {
     width: 100px;
   }
+  
+  > p input, >p select {
+    width: 100%;
+  }
 `
 
 
-const CategoryList = ({ user, categories, closePopup }) => {
+const CategoryList = ({ user, categories, closePopup, refresh }) => {
   const [ category, setCurrentCategory ] = useState({
     high_lv_id: 0,
-    category_name: '',
-    category_desc: '',
+    name: '',
+    desc: '',
     use_yn: 'Y',
     reg_id: user.id,
   })
@@ -53,25 +52,25 @@ const CategoryList = ({ user, categories, closePopup }) => {
     const status = await insertCategory(category)
     switch (status){
       case 201:
+        refresh()
+        closePopup()
         break
+    }
+  }
+
+  const removeCategory = async (category) => {
+    if(confirm('삭제 하시겠습니까?')){
+      const status = await deleteCategory(category)
+      switch (status){
+        case 204:
+          refresh()
+          break
+      }
     }
   }
 
   return (
     <Wrapper>
-      <div>
-        <span>상위 카테고리</span>
-        <input type="text" onChange={e => setCurrentCategory((prevState) => ({...prevState, high_lv_id: e.target.value}))}/>
-      </div>
-      <div>
-        <span>카테고리명</span>
-        <input type="text" onChange={e => setCurrentCategory((prevState) => ({...prevState, category_name: e.target.value}))}/>
-      </div>
-      <div>
-        <span>카테고리 설명</span>
-        <input type="text" onChange={e => setCurrentCategory((prevState) => ({...prevState, category_desc: e.target.value}))}/>
-      </div>
-      <button onClick={() => saveCategory(category)}>추가</button>
       <List>
         <TableHeader>
           <p>상위카테고리</p>
@@ -87,10 +86,27 @@ const CategoryList = ({ user, categories, closePopup }) => {
             </p>
             <p>{category.name}</p>
             <p>{category.desc}</p>
-            <button>수정</button>
-            <button>삭제</button>
+            {/*<button>수정</button>*/}
+            <button onClick={() => removeCategory(category)}>삭제</button>
           </ListItem>
         ))}
+        <ListItem>
+          <p>
+            <select onChange={e => setCurrentCategory((prevState) => ({...prevState, high_lv_id: e.target.value}))}>
+              <option value={0}>root</option>
+              {categories?.map((category, index) => (
+                <option key={category.id} value={category.id}>{category.name}</option>
+              ))}
+            </select>
+          </p>
+          <p>
+            <input type="text" onChange={e => setCurrentCategory((prevState) => ({...prevState, name: e.target.value}))}/>
+          </p>
+          <p>
+            <input type="text" onChange={e => setCurrentCategory((prevState) => ({...prevState, desc: e.target.value}))}/>
+          </p>
+          <button onClick={() => saveCategory(category)}>추가</button>
+        </ListItem>
       </List>
     </Wrapper>
   )

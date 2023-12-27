@@ -33,10 +33,19 @@ const usePayments = ( userId ) => {
   }
 }
 
-const insertPayment = async (payments) => {
+const insertPayment = async (payment) => {
   const { status } = await client // error
     .from('fixed_cost_payment')
-    .insert(payments)
+    .insert(payment)
+
+  return status
+}
+
+const deletePayment = async (payment) => {
+  const { status } = await client // error
+    .from('fixed_cost_payment')
+    .delete()
+    .eq('id', payment.id)
 
   return status
 }
@@ -44,4 +53,5 @@ const insertPayment = async (payments) => {
 export {
   usePayments,
   insertPayment,
+  deletePayment,
 }

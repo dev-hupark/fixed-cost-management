@@ -17,7 +17,7 @@ const useCategories = ( userId ) => {
         .from('fixed_cost_category')
         .select('*')
         .eq('reg_id', userId)
-        .order('reg_dt', { ascending: true })
+        .order('high_lv_id, id')
 
       switch (status) {
         case 200:
@@ -33,10 +33,19 @@ const useCategories = ( userId ) => {
   }
 }
 
-const insertCategory = async (categories) => {
+const insertCategory = async (category) => {
   const { status } = await client // error
     .from('fixed_cost_category')
-    .insert(categories)
+    .insert(category)
+
+  return status
+}
+
+const deleteCategory = async (category) => {
+  const { status } = await client // error
+    .from('fixed_cost_category')
+    .delete()
+    .eq('id', category.id)
 
   return status
 }
@@ -44,4 +53,5 @@ const insertCategory = async (categories) => {
 export {
   useCategories,
   insertCategory,
+  deleteCategory,
 }

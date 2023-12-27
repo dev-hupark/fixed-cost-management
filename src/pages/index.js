@@ -37,6 +37,11 @@ const PopupContent = styled.div`
   z-index: 1;
 `
 
+const PopupButtonWrap = styled.div`
+  display: flex;
+  justify-content: right;
+`
+
 const ButtonArea = styled.div`
   display: flex;
   gap: 15px;
@@ -67,7 +72,7 @@ const Index = () => {
   }
 
   const payManagementPopup = () => {
-    setPopState(1)
+    setPopState(2)
     toggleIsPopup()
   }
   const addCostPopup = () => {
@@ -117,7 +122,9 @@ const Index = () => {
           {isPopup &&
           <PopupArea>
             <PopupContent>
-              <button onClick={toggleIsPopup}>닫기</button>
+              <PopupButtonWrap>
+                <button onClick={toggleIsPopup}>닫기</button>
+              </PopupButtonWrap>
               { popState === 0 ?
                 <AddCostForm
                   user={user}
@@ -126,8 +133,20 @@ const Index = () => {
                   payments={payments}
                   refreshCosts={refreshCosts}
                 />
-                : popState === 1 ? <CategoryList user={user} categories={categories}/>
-                  : <PaymentList user={user} payments={payments}/>}
+                : popState === 1 ?
+                  <CategoryList
+                    user={user}
+                    categories={categories}
+                    closePopup={toggleIsPopup}
+                    refresh={refreshCategories}
+                  />
+                  : <PaymentList
+                    user={user}
+                    payments={payments}
+                    closePopup={toggleIsPopup}
+                    refresh={refreshPayments}
+                  />
+              }
             </PopupContent>
           </PopupArea>
           }

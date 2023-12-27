@@ -43,8 +43,12 @@ const CategoryTitle = styled.p`
 const List = ({ costs, categories, payments, editCostPopup, refreshCosts }) => {
   const deleteCostChk = async ( cost ) => {
     if(confirm('삭제 하시겠습니까?')){
-      await deleteCost(cost)
-      await refreshCosts()
+      const status = await deleteCost(cost)
+      switch (status){
+        case 204:
+          refreshCosts()
+          break
+      }
     }
   }
 
