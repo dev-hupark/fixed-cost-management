@@ -6,9 +6,9 @@ import { useCategories } from 'data/category'
 import { usePayments } from 'data/payment'
 import { useCosts } from 'data/costs'
 import List from 'components/cost/List'
-import AddCostForm from "components/cost/AddCostForm";
-import CategoryList from "components/my/CategoryList";
-import PaymentList from "components/my/PaymentList";
+import AddCostForm from 'components/cost/AddCostForm'
+import CategoryList from 'components/my/CategoryList'
+import PaymentList from 'components/my/PaymentList'
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,7 +46,7 @@ const Index = () => {
   const { user, loggedIn } = useAuth()
   const { costs, refresh: refreshCosts } = useCosts(user.id)
   const [ isPopup, setIsPopup ] = useState(false)
-  const [ popState, setPopState ] = useState(0);
+  const [ popState, setPopState ] = useState(0)
   const [ cost, setCurrentCost ] = useState({
     type: 0,
     category: 0,
