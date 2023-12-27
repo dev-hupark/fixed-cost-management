@@ -17,7 +17,7 @@ const AddCostForm = ({ curCost, categories, payments, closePopup, refreshCosts }
   const [ cost, setCost ] = useState(curCost)
 
   const saveCost = async (cost, type) => {
-    if(!validation(cost)) return;
+    if(!validation(cost)) return
 
     let status = 0
     if(type === 'I'){
@@ -36,7 +36,6 @@ const AddCostForm = ({ curCost, categories, payments, closePopup, refreshCosts }
   }
 
   const validation = ( cost ) => {
-    console.log(cost);
     if(cost.type === 0){
       console.log('타입 입력 필요')
       return false
