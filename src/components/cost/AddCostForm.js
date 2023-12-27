@@ -49,9 +49,7 @@ const AddCostForm = ({ curCost, categories, payments, closePopup, refreshCosts }
       console.log('금액이 0원입니다. 이대로 입력?')
       return false
     }
-
     return true
-
   }
 
   return (
