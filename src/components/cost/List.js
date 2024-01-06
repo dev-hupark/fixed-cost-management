@@ -85,7 +85,11 @@ const List = ({ costs, categories, payments, editCostPopup, refreshCosts }) => {
             <ListItem>
               <p>{cost.name}</p>
               <p>{cost.cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} 원</p>
-              <p>{cost.pay_seq}</p>
+              <p>
+                {payments?.filter(payment => payment.id === cost.pay_seq).map((payment, index) => (
+                  payment.name
+                ))}
+              </p>
               <p>{cost.pay_date}</p>
               <button onClick={() => editCostPopup(cost)}>수정</button>
               <button onClick={() => deleteCostChk(cost)}>삭제</button>

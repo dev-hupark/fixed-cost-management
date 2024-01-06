@@ -53,7 +53,6 @@ const CategoryList = ({ user, categories, closePopup, refresh }) => {
     switch (status){
       case 201:
         refresh()
-        closePopup()
         break
     }
   }
